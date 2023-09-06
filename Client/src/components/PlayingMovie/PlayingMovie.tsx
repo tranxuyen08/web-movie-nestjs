@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { BiSolidLike } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Rating } from "react-simple-star-rating";
 const PlayingMovie: React.FC = () => {
   const params = useParams<{ id: string }>();
   const [movie, setMovie] = useState<any>();
@@ -16,6 +17,7 @@ const PlayingMovie: React.FC = () => {
   const [comment, setComment] = useState<any[]>([]);
   const [inputComment, setInputComment] = useState<string>("");
   const [isCheckCmt, setIsCheckCmt] = useState<boolean>(false);
+  const [rating, setRating] = useState(0);
 
   const fetchMovie = async () => {
     try {
@@ -76,6 +78,19 @@ const PlayingMovie: React.FC = () => {
   //   }
   // };
 
+  // Catch Rating value
+  const handleRating = (rate: number) => {
+    setRating(rate);
+
+    // other logic
+  };
+  // Optinal callback functions
+  //change rating
+  const onPointerEnter = () => console.log("Enter");
+  const onPointerLeave = () => console.log("Leave");
+  const onPointerMove = (value: number, index: number) =>
+    console.log(value, index);
+
   const handleFavorite = async (id: string) => {
     const requestData = {
       idMovie: id,
@@ -120,8 +135,8 @@ const PlayingMovie: React.FC = () => {
         const requestBody = {
           idMovie: params.id,
           titleComment: inputComment,
+          rating: rating,
         };
-        console.log("requestBody",requestBody)
         await BaseAxios.post("/api/v1/comments", requestBody);
         setIsCheckCmt(!isCheckCmt);
         setInputComment("");
@@ -181,6 +196,17 @@ const PlayingMovie: React.FC = () => {
                 <MdOutlineFavoriteBorder className="icon-favorite" />
               )}
             </p>
+            <p>
+              <Rating
+                size={25}
+                fillColor="#9acd32"
+                onClick={handleRating}
+                onPointerEnter={onPointerEnter}
+                onPointerLeave={onPointerLeave}
+                onPointerMove={onPointerMove}
+                /* Available Props */
+              />
+            </p>
           </div>
           <div className="over-view">
             <h3 className="title-h3">Overview:</h3>
@@ -210,8 +236,21 @@ const PlayingMovie: React.FC = () => {
                               </p>
                             </div>
                             <div className="like-wrapper">
-                              <BiSolidLike className="like-icon" />
-                              <span className="num-like">5</span>
+                              {/* <BiSolidLike className="like-icon" /> */}
+                              {/* <span className="num-like">5</span> */}
+                              <p>
+                                <Rating
+                                  size={15}
+                                  readonly= {true}
+                                  initialValue={item?.rating}
+                                  fillColor="#9acd32"
+                                  onClick={handleRating}
+                                  onPointerEnter={onPointerEnter}
+                                  onPointerLeave={onPointerLeave}
+                                  onPointerMove={onPointerMove}
+                                  /* Available Props */
+                                />
+                              </p>
                             </div>
                           </div>
                         </li>

@@ -4,12 +4,12 @@ import { BsFillPlayFill } from "react-icons/bs";
 // import { AiOutlineSend } from "react-icons/ai";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { Rating } from "react-simple-star-rating";
 
 import BaseAxios from "../../api/axiosClient";
 import { Link, useParams } from "react-router-dom";
 import { IComment, IMovie } from "../../types/types";
 import FadingBox from "../Model/Model";
-
 
 const Detail: React.FC = () => {
   const params = useParams<{ id: string }>();
@@ -22,7 +22,6 @@ const Detail: React.FC = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [comments, setComments] = useState<IComment[]>([]);
   const [value, setValue] = useState<number>(0);
-
 
   const handleWatchingClick = () => {
     if (movie?.role_movie === 1) {
@@ -76,6 +75,22 @@ const Detail: React.FC = () => {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
+
+  const [rating, setRating] = useState(0);
+
+  // Catch Rating value
+  const handleRating = (rate: number) => {
+    setRating(rate);
+
+    // other logic
+  };
+  // Optinal callback functions
+  const onPointerEnter = () => console.log("Enter");
+  const onPointerLeave = () => console.log("Leave");
+  const onPointerMove = (value: number, index: number) =>
+    console.log(value, index);
+    console.log("comments",comments)
+
   return (
     <section className="sect-detail">
       <div className="wrapper-middle">
@@ -172,16 +187,30 @@ const Detail: React.FC = () => {
                       <div className="user">
                         <div className="wrapper-img">
                           <img
-                            src={comment?.idUser?.avatar.slice(1)}
+                            src={comment?.idUser?.avatar}
                             alt="User Avatar"
                           />
                         </div>
-                        <p className="name-comment">
-                          {comment?.idUser?.firstName +
-                            comment?.idUser?.lastName}
-                        </p>
                       </div>
                       <div className="wrapper-comment-content">
+                        <div className="user-comment">
+                          <p className="name-comment">
+                            {comment?.idUser?.firstName +
+                              comment?.idUser?.lastName}
+                          </p>
+                          <p>
+                            <Rating
+                            size={15}
+                            readonly= {true}
+                            initialValue={3}
+                              onClick={handleRating}
+                              onPointerEnter={onPointerEnter}
+                              onPointerLeave={onPointerLeave}
+                              onPointerMove={onPointerMove}
+                              /* Available Props */
+                            />
+                          </p>
+                        </div>
                         <p>{comment?.titleComment}</p>
                       </div>
                     </div>

@@ -14,6 +14,7 @@ export class CommentService {
         .find({ idMovie: movieId })
         .populate('idUser')
         .exec();
+        console.log("comments",comments)
       return comments;
     } catch (error) {
       console.error(error);
@@ -21,8 +22,6 @@ export class CommentService {
   }
   async handlePostComment(data : CommentDTO) {
     data.idMovie = new Types.ObjectId(data.idMovie)
-    data.idUser = new Types.ObjectId(data.idUser)
-
     try {
       const newComment = new this.commentModel(data);
       return newComment.save();

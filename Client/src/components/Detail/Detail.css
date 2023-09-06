@@ -150,7 +150,8 @@
   gap: 20px;
 }
 .name-comment{
-  color: var(--secondary-color);
+  color: white;
+  font-weight: 800;
 }
 .wrapper-comment-content >p{
   color: var(--secondary-color);
@@ -191,4 +192,10 @@
 
 .activeDetail {
   border-bottom: 3px solid #ddd;
+}
+.user-comment{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }

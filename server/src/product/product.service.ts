@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { ProductsMovie, ProductDocument } from './product.entites'; // Import ProductDocument
 import { ProductDTO } from './dto/product.dto';
 
@@ -12,7 +12,6 @@ export class ProductService {
 
   async findAll(res,page,limit ): Promise<ProductsMovie[]> {
     try{
-      console.log(page,limit)
       const skip = (page - 1) * limit;
       const totalMovie = await this.productModel.find();
       const movies = await this.productModel.find().skip(skip).limit(limit).exec()
@@ -29,8 +28,8 @@ export class ProductService {
     }
   }
 
-  async findOne(_id: string): Promise<ProductsMovie | null> {
-    return this.productModel.findById(_id).exec();
+  async findOne(_id: ObjectId): Promise<ProductsMovie | null> {
+    return  await this.productModel.findById(_id).exec();
   }
 
   async createProduct(data: ProductDTO): Promise<{ message: string }> {
@@ -86,6 +85,34 @@ export class ProductService {
     } catch (error) {
       console.error('Error while searching product:', error);
       return { message: error.message || 'An error occurred' };
+    }
+  }
+  async handleGetMoviePopular(res, limit : number) {
+    try {
+      const popularMovie = await this.productModel.find()
+        .sort({
+          popularity: -1,
+        })
+        .limit(limit);
+      res.status(200).json({ data: popularMovie });
+    } catch (err) {
+      // Lỗi server
+      console.error("Error handling add movie:", err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  async handleGetMovieByTopRate(res, limit){
+    try {
+      const rateMovie = await this.productModel.find()
+        .sort({
+          vote_average: -1,
+        })
+        .limit(limit);
+      res.status(200).json({ data: rateMovie });
+    } catch (err) {
+      // Lỗi server
+      console.error("Error handling add movie:", err);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }

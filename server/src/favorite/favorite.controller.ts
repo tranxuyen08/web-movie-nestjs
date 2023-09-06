@@ -1,28 +1,32 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { FavoriteService } from './favorite.service';
 import { Response } from 'express';
 import { ObjectId } from 'mongoose';
-@Controller('/api/v1/favorites')
+@Controller('/api/v1/favorite')
 export class FavoriteController {
   constructor(public favoriteService: FavoriteService) {}
 
-  @Post(':id')
+  @Post()
   async likeFavorites(
+    @Req() req,
     @Res() res: Response,
-    @Param('id') id: ObjectId,
-    @Body() body: { idUser: ObjectId },
+    @Body() body: { idMovie: ObjectId },
   ) {
+
     return await this.favoriteService.handleLikeMovie(res, {
-      idMovie: id,
-      idUser: body.idUser,
+      idMovie: body.idMovie,
+      idUser: req.user.userId,
     });
   }
   @Get()
-  async getLikeMovie(@Body()  body: { idUser: string }){
-    return await this.favoriteService.handleGetLikeMovie(body.idUser)
+  async getLikeMovie(@Req() req ){
+    const idUser = req.user.userId;
+    return await this.favoriteService.handleGetLikeMovie(idUser)
   }
-  @Get()
-  getListLikeMovie() {
-    this.favoriteService.getListFavorite();
+  @Delete(":id")
+  async deleteLikeMovie(@Param('id') param,@Req() req){
+    const idMovie = param;
+    console.log("idMovie",idMovie)
+    return await this.favoriteService.handleDelete(idMovie)
   }
 }

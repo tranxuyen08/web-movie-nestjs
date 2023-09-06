@@ -4,6 +4,7 @@ import { Favorite } from './favorite.schema';
 import { Model, Types } from 'mongoose';
 import { Response } from 'express';
 import { FavoriteModule } from './favorite.module';
+import { ObjectId } from 'typeorm';
 @Injectable()
 export class FavoriteService {
   constructor(
@@ -19,32 +20,33 @@ export class FavoriteService {
         .populate('idMovie')
         .exec();
 
-        if (checkFavorite) {
-          // Nếu đã có trong danh sách yêu thích, xóa khỏi danh sách
-          await checkFavorite.deleteOne();
-          res
-            .status(200)
-            .json({ message: 'Loại bỏ khỏi danh sách yêu thích thành công' });
-        } else {
-          // Nếu chưa có trong danh sách yêu thích, thêm vào danh sách
-          const newFavorite = new this.favoriteModel({ idUser: userId, idMovie: movieId });
-          await newFavorite.save();
-          res
-            .status(200)
-            .json({ message: 'Bộ phim đã được thêm vào danh sách yêu thích' });
-        }
+      if (checkFavorite) {
+        // Nếu đã có trong danh sách yêu thích, xóa khỏi danh sách
+        await checkFavorite.deleteOne();
+        res
+          .status(200)
+          .json({ message: 'Loại bỏ khỏi danh sách yêu thích thành công' });
+      } else {
+        // Nếu chưa có trong danh sách yêu thích, thêm vào danh sách
+        const newFavorite = new this.favoriteModel({
+          idUser: userId,
+          idMovie: movieId,
+        });
+        await newFavorite.save();
+        res
+          .status(200)
+          .json({ message: 'Bộ phim đã được thêm vào danh sách yêu thích' });
+      }
     } catch (error) {
       console.error(error);
     }
-}
+  }
 
-
-  async handleGetLikeMovie(idUser: string) {
-    const userId = new Types.ObjectId(idUser); // Chuyển đổi thành ObjectId
-
+  async handleGetLikeMovie(idUser) {
+    const convertIdUser = new Types.ObjectId(idUser);
     try {
       const favoriteMovie = await this.favoriteModel
-        .findOne({idUser: userId})
+        .find({ idUser: convertIdUser })
         .populate('idMovie')
         .exec();
       return favoriteMovie;
@@ -53,17 +55,16 @@ export class FavoriteService {
       throw new Error('Error getting favorite movie');
     }
   }
-  async getListFavorite(): Promise<{ message: string }> {
+  async handleDelete(idMovie) {
     try {
-      const favorite = await this.favoriteModel
-        .find()
+      const convertIdUser = new Types.ObjectId(idMovie);
+      const deleteFavoriteMovie = await this.favoriteModel
+        .deleteOne({ idMovie: convertIdUser })
         .populate('idMovie')
-        .populate('idUser')
         .exec();
-      console.log(1111, favorite);
-      return { message: 'favorite' };
-    } catch (error) {
-      console.log(error);
+      return deleteFavoriteMovie;
+    } catch (err) {
+      return { message: err };
     }
   }
 }

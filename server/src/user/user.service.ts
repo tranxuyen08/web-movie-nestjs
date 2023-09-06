@@ -95,7 +95,7 @@ export class UsersService {
             secure: true,
           });
 
-         return res.status(200).json({
+          return res.status(200).json({
             data: userData,
             accessToken,
           });
@@ -104,25 +104,46 @@ export class UsersService {
     } catch (error) {
       console.error(error);
     }
-   return res.status(200).json({ message: 'Login failed' });
+    return res.status(200).json({ message: 'Login failed' });
   }
-  async handleUpdateUser(data, _id: string): Promise<{ message: string }> {
-
+  async handleUpdateUser(data, _id: string) {
     try {
       const userUpdate = await this.userModel.findByIdAndUpdate(_id, data, {
-            new: true,
-            runValidators: true,
-          })
-      if(data.avatar){
-        userUpdate.avatar = data.avatar
-      }
-      await userUpdate.save()
-      return { message: 'Update successfully' };
+        new: true,
+        runValidators: true,
+      });
+      // if (data.avatar) {
+      //   userUpdate.avatar = data.avatar;
+      // }
+      await userUpdate.save();
+      return userUpdate;
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error('Error while updating product:', error);
       throw error;
     }
+  }
+  async handleUpdateAvatar(data, _id: string) {
+    try {
+      const userUpdate = await this.userModel.findByIdAndUpdate(
+        _id,
+        data.avatar,
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+      if (userUpdate) {
+        userUpdate.avatar = data.avatar;
+      }
+      await userUpdate.save();
+      return userUpdate
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error('Error while updating product:', error);
+      throw error;
+    }
+    return;
   }
   async handleLogout(req: Request, res: Response) {
     // Remove the lines related to accessToken
@@ -135,8 +156,9 @@ export class UsersService {
   }
   async handleRefreshToken(req: Request, res: Response) {
     const refreshToken = req.cookies.refreshToken;
-    console.log(refreshToken);
-    if (!refreshToken) res.status(401).json('Unauthenticated');
+    if (!refreshToken) {
+      return res.status(401).json('Unauthenticated');
+    }
     if (!refreshTokenArr.includes(refreshToken)) {
       return res.status(401).json('Unauthenticated');
     }

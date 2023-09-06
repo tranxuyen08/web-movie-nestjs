@@ -18,8 +18,9 @@ import { ProductDTO } from './dto/product.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { multerUpload } from 'src/config/multer.config';
 import { query } from 'express';
+import { ObjectId } from 'mongoose';
 
-@Controller('/api/v1/products')
+@Controller('/api/v1/movie')
 export class ProductsController {
   constructor(public productService: ProductService) {
     //DONT DO THIS ON REAL APP
@@ -31,8 +32,16 @@ export class ProductsController {
     @Query('_page') page: number = 1,
     @Query('_limit') limit: number = 10,
   ) {
-    return this.productService.findAll(res, page, limit);
+    this.productService.findAll(res, page, limit);
   }
+  @Get("popular")
+  async getProductByPopular(@Res() res: Response, @Query('_limit') limit: number = 5){
+     await this.productService.handleGetMoviePopular(res, limit);
+  }
+  @Get('rate')
+  async getProductByTopRate(@Res() res: Response, @Query('_limit') limit: number = 5){
+    await this.productService.handleGetMovieByTopRate(res, limit);
+ }
   @Post('/add-movie')
   @UseInterceptors(
     FileFieldsInterceptor(
@@ -63,7 +72,7 @@ export class ProductsController {
     return data;
   }
   @Get(':id')
-  getProductById(@Param('id') id: string) {
+  getProductById(@Param('id') id: ObjectId) {
     try {
       return this.productService.findOne(id);
     } catch (error) {

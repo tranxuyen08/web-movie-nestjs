@@ -87,9 +87,7 @@ const Detail: React.FC = () => {
   // Optinal callback functions
   const onPointerEnter = () => console.log("Enter");
   const onPointerLeave = () => console.log("Leave");
-  const onPointerMove = (value: number, index: number) =>
-    console.log(value, index);
-    console.log("comments",comments)
+  const onPointerMove = (value: number, index: number) =>console.log(value, index);
 
   return (
     <section className="sect-detail">

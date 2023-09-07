@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import {Exclude} from "class-transformer";
+import { Date, Document } from 'mongoose';
+import { Exclude } from 'class-transformer';
 export type UsersDocument = User & Document;
 
 @Schema({ timestamps: true })
@@ -27,8 +27,11 @@ export class User extends Document {
   @Prop({ default: 1 })
   role_active: number;
 
-  @Prop({ default: "./image/zyro-image (3).png" })
+  @Prop({ default: './image/zyro-image (3).png' })
   avatar: string;
+
+  @Prop({type: Date, default: null})
+  expiration_Date ?: Date
 }
 
 export const UsersSchema = SchemaFactory.createForClass(User);

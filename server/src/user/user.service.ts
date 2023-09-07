@@ -107,6 +107,7 @@ export class UsersService {
     return res.status(200).json({ message: 'Login failed' });
   }
   async handleUpdateUser(data, _id: string) {
+    console.log("data",data)
     try {
       const userUpdate = await this.userModel.findByIdAndUpdate(_id, data, {
         new: true,

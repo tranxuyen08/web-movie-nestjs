@@ -1,0 +1,19 @@
+/* RightBarFilter.module.css */
+
+.right-bar {
+  background-color: #f0f0f0;
+  padding: 16px;
+  border: 1px solid #ccc;
+}
+
+.right-bar h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.right-bar p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* Thêm các lớp CSS khác tùy ý */

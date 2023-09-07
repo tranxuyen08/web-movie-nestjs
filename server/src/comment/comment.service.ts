@@ -14,7 +14,6 @@ export class CommentService {
         .find({ idMovie: movieId })
         .populate('idUser')
         .exec();
-        console.log("comments",comments)
       return comments;
     } catch (error) {
       console.error(error);

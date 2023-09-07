@@ -1,0 +1,154 @@
+/* CheckOut.css */
+
+.checkout {
+  background-image: url('./image/pexels-henry-&-co-3137890.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.checkout-container {
+  backdrop-filter: blur(1.2px);
+  /* background-color: rgba(255, 255, 255, 0.85); */
+  padding: 20px;
+  border-radius: 5px;
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); */
+  /* width: 100%; */
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.checkout-wrapper {
+  display: flex;
+  justify-content: center; /* Để các credit-card nằm ngang */
+  align-items: center;
+  gap: 30px;
+}
+
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.credit-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 380px;
+  height: 500px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.credit-card-1 {
+  background-image: url('./image/WEB_FAMILY.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+.credit-card-2 {
+  background-image: url('./image/WEB_Vip.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+
+
+.credit-card .credit-content {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: auto; /* Để nội dung nằm ở cuối thẻ cha */
+  color: white;
+}
+
+.credit-card .credit-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.credit-card .credit-content p {
+  font-size: 18px;
+  margin-bottom: 0;
+  color: white;
+}
+.credit-card button {
+  width: 100%;
+  background-color: #e50914;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+  align-self: flex-end;
+}
+
+.credit-card form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.credit-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #fff;
+  outline: none;
+  caret-color: #e50914;
+}
+
+.expiry-cvc {
+  display: flex;
+  justify-content: space-between;
+}
+
+.credit-card button {
+  width: 100%;
+  background-color: #e50914;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+  align-self: flex-end; /* Đặt nút ở dưới cùng */
+}
+
+.credit-card button:hover {
+  background-color: #ff3a43;
+}

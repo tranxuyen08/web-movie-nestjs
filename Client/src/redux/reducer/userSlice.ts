@@ -55,6 +55,7 @@ const userSlice  = createSlice({
       })
       .addCase(register.fulfilled, (state : any, action : PayloadAction<any>) => {
         state =  action.payload;
+        return state
       })
       .addCase(updateUser.fulfilled, (state : any, action : PayloadAction<any>) => {
         state =  action.payload;

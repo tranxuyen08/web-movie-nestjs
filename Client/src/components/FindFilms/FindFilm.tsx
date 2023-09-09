@@ -20,11 +20,14 @@ import { RootState } from "../../redux/store/store";
 
 const FindFilm: React.FC = () => {
   const dispatch = useDispatch();
-  // const movies = useSelector((state: any) => state?.movie.data?.data); // Thay any bằng kiểu dữ liệu phù hợp
   const pagination = useSelector((state: RootState) => state.movies.pagination); // Thay any bằng kiểu dữ liệu phù hợp
-  // const movieState = useSelector((state: any) => state.movie) as IMovieState
+  const sortValue = useSelector((state: RootState) => state.sortData);
   const [dataMovie, setDataMovie] = useState<Array<any>>([]); // Thay any[] bằng kiểu dữ liệu phù hợp
   const [isLoad, setIsLoad] = useState<boolean>(true);
+  const [isSort, setIsSort] = useState<boolean>(false);
+  const valueProgress = useSelector(
+    (state: RootState) => state.filterTimeMovie
+  );
   const handleGetAPI = async (params: number) => {
     try {
       await dispatch(getAll(params) as any).unwrap();
@@ -34,11 +37,6 @@ const FindFilm: React.FC = () => {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    handleGetAPI(1);
-  }, []);
-
   const [filter, setFilter] = useState({
     _limit: 10,
     _page: 1,
@@ -50,19 +48,30 @@ const FindFilm: React.FC = () => {
       _page: page,
     }));
   };
+  const handleFilter = async () => {
+    setIsLoad(true)
+    try {
+      const queryString = querystring.stringify(filter);
+      const response = await BaseAxios.get(
+        `/api/v1/movie?${queryString}&_sort=${sortValue}&_process=${valueProgress}`
+      );
+      setDataMovie(response.data.data);
+      setIsLoad(false);
+      console.log("lojt khe")
+    } catch (error) {
+      console.log("lojt khe")
+      console.log(error);
+      console.error(error);
+      setIsLoad(false);
+    }
+  };
+  useEffect(() => {
+    handleFilter();
+  }, [filter, sortValue,valueProgress]);
 
   useEffect(() => {
-    const handleFilter = async () => {
-      try {
-        const queryString = querystring.stringify(filter);
-        const response = await BaseAxios.get(`/api/v1/movie?${queryString}`);
-        setDataMovie(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    handleFilter();
-  }, [filter]);
+    handleGetAPI(1);
+  }, []);
 
   return (
     <section className="find-film">

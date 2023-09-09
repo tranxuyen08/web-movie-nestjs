@@ -21,12 +21,15 @@ import RequiredAuth from './components/RequireAuth'
 import NotFound from './components/NotFound/NotFound'
 import  {PayPalScriptProvider} from '@paypal/react-paypal-js'
 import CheckOut from './components/CheckOut/CheckOut'
+import { useState } from 'react'
+import ExploreLayout from './layout/Explore/ExploreLayout'
 // require("dotenv").config()
 
 const PAYPAL_CLIENT_ID = 'AaCz_FbQvmgViAE1krmn50miKVJu7TrjEqD6tv3aD8aEX6fPHrZt5T27rtF_KbdZv1H2KKgEaKqQTSQR'
 
 function App() {
   // const [count, setCount] = useState(0)
+
   return (
     <>
     <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID }}>
@@ -38,7 +41,7 @@ function App() {
             <ShowMovie />
           </DefaultLayout>} />
         <Route path="/search" element={<DefaultLayout><Search /></DefaultLayout>} />
-        <Route path='/explore' element={<DefaultLayout><FindFilm /></DefaultLayout>} />
+        <Route path='/explore' element={<ExploreLayout><FindFilm /></ExploreLayout>} />
         {/* kiem tra xem accessToken ddusng khong thi moi chi di den component do */}
         <Route element={<RequiredAuth />}>
           <Route path='/detail/:id' element={<DefaultLayout>

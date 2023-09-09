@@ -41,6 +41,7 @@ export interface IMovie {
   poster: string
   role_movie: number,
   popularity: number,
+  runtime: number,
 }
 
 export interface IComment {

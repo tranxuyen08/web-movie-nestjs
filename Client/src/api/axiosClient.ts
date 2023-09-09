@@ -16,7 +16,6 @@ const BaseAxios: AxiosInstance = axios.create({
   },
 });
 
-
 axios.defaults.withCredentials = true;
 BaseAxios.defaults.withCredentials = true;
 const refreshToken = async () => {
@@ -28,25 +27,26 @@ const refreshToken = async () => {
     localStorage.setItem("accessToken", res.data.accessToken);
     return res.data.accessToken;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
 BaseAxios.interceptors.request.use(
   async (config) => {
     let token: string | null = null;
+    token = localStorage.getItem("accessToken");
     try {
       const date = new Date(); //Tạo ngày giờ hiện tại kiểm tra
-      token = await localStorage.getItem("accessToken");
       if (token) {
-        const decodedToken: DecodedToken = jwtDecode(token); //giải mã token
+        const decodedToken: DecodedToken = await   jwtDecode(token); //giải mã token
         if (decodedToken.exp < date.getTime() / 1000) {
-          const data = await refreshToken();
-          token = data;
+          await refreshToken().then((data)=>{
+            token = data
+          });
         }
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
 
     if (token !== null) {
@@ -71,4 +71,3 @@ BaseAxios.interceptors.response.use(
 );
 
 export default BaseAxios;
-

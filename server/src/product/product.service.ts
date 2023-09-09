@@ -7,29 +7,68 @@ import { ProductDTO } from './dto/product.dto';
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectModel("ProductsMovie") private productModel: Model<ProductsMovie>,
+    @InjectModel('ProductsMovie') private productModel: Model<ProductsMovie>,
   ) {}
 
-  async findAll(res,page,limit ): Promise<ProductsMovie[]> {
-    try{
+  async findAll(res, page, limit, sort, process): Promise<ProductsMovie[]> {
+    const totalMovie = await this.productModel.find();
+    try {
       const skip = (page - 1) * limit;
-      const totalMovie = await this.productModel.find();
-      const movies = await this.productModel.find().skip(skip).limit(limit).exec()
-      return res.status(200).json({
-        data: movies,
-        pagination: {
-          _limit: Number(limit),
-          _page: Number(page),
-          _totalMovie: totalMovie.length,
-        },
-      });
-    }catch(error){
-      return res.status(500).json({ msg: "Lỗi server" });
+      if (sort === 'vote_average') {
+        // sort movie theo vote average
+        const movies = await this.productModel
+          .find({ runtime: { $gte: process } })
+          .sort({ vote_average: -1 }) // Sắp xếp theo vote_average giảm dần
+          .skip(skip)
+          .limit(limit)
+          .exec();
+        return res.status(200).json({
+          data: movies,
+          pagination: {
+            _limit: Number(limit),
+            _page: Number(page),
+            _totalMovie: totalMovie.length,
+          },
+        });
+      } else if (sort === 'popularity') {
+        // sort movie theo popularity
+        const movies = await this.productModel
+          .find({ runtime: { $gte: process } }) // Lọc bộ phim có vote_average lớn hơn 5
+          .sort({ popularity: -1 }) // Sắp xếp theo vote_average giảm dần
+          .skip(skip)
+          .limit(limit)
+          .exec();
+        return res.status(200).json({
+          data: movies,
+          pagination: {
+            _limit: Number(limit),
+            _page: Number(page),
+            _totalMovie: totalMovie.length,
+          },
+        });
+      } else {
+        //lấy tất cả movie ko sort
+        const movies = await this.productModel
+          .find({ runtime: { $gte: process } }) // Lọc bộ phim có vote_average lớn hơn 5
+          .skip(skip)
+          .limit(limit)
+          .exec();
+        return res.status(200).json({
+          data: movies,
+          pagination: {
+            _limit: Number(limit),
+            _page: Number(page),
+            _totalMovie: totalMovie.length,
+          },
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({ msg: 'Lỗi server' });
     }
   }
 
   async findOne(_id: ObjectId): Promise<ProductsMovie | null> {
-    return  await this.productModel.findById(_id).exec();
+    return await this.productModel.findById(_id).exec();
   }
 
   async createProduct(data: ProductDTO): Promise<{ message: string }> {
@@ -73,10 +112,14 @@ export class ProductService {
       throw error;
     }
   }
-  async searchProductByTitle(title: string): Promise<ProductsMovie[] | { message: string }> {
+  async searchProductByTitle(
+    title: string,
+  ): Promise<ProductsMovie[] | { message: string }> {
     try {
       const searchRegex = new RegExp(title, 'i');
-      const searchValue = await this.productModel.find({ title: searchRegex }).exec();
+      const searchValue = await this.productModel
+        .find({ title: searchRegex })
+        .exec();
 
       if (searchValue.length === 0) {
         throw new HttpException('Movie not found', HttpStatus.NOT_FOUND);
@@ -87,9 +130,10 @@ export class ProductService {
       return { message: error.message || 'An error occurred' };
     }
   }
-  async handleGetMoviePopular(res, limit : number) {
+  async handleGetMoviePopular(res, limit: number) {
     try {
-      const popularMovie = await this.productModel.find()
+      const popularMovie = await this.productModel
+        .find()
         .sort({
           popularity: -1,
         })
@@ -97,13 +141,14 @@ export class ProductService {
       res.status(200).json({ data: popularMovie });
     } catch (err) {
       // Lỗi server
-      console.error("Error handling add movie:", err);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.error('Error handling add movie:', err);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
-  async handleGetMovieByTopRate(res, limit){
+  async handleGetMovieByTopRate(res, limit) {
     try {
-      const rateMovie = await this.productModel.find()
+      const rateMovie = await this.productModel
+        .find()
         .sort({
           vote_average: -1,
         })
@@ -111,8 +156,8 @@ export class ProductService {
       res.status(200).json({ data: rateMovie });
     } catch (err) {
       // Lỗi server
-      console.error("Error handling add movie:", err);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.error('Error handling add movie:', err);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 }

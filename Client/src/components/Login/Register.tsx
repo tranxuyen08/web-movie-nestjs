@@ -25,7 +25,6 @@ const Register: React.FC = () => {
     e.preventDefault();
     try {
       const userRegister = valueRegister;
-      console.log("userRegister",userRegister)
       await dispatch(register(userRegister) as any).unwrap();
       navigate("/Login");
     } catch (err) {

@@ -110,7 +110,6 @@ const CheckOut: React.FC = () => {
               }}
               createOrder={(data, actions) => {
                 {
-                  console.log(data);
                   return actions.order.create({
                     purchase_units: [
                       {
@@ -143,7 +142,6 @@ const CheckOut: React.FC = () => {
               }}
               createOrder={(data, actions) => {
                 {
-                  console.log(data);
                   return actions.order.create({
                     purchase_units: [
                       {

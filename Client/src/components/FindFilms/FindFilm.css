@@ -37,6 +37,8 @@ text-align: center;
 .ratting.ratting-card {
   display: flex;
   align-items: center;
+  border-radius: 7px;
+  padding: 0 5px;
 }
 
 .icon-ratting {

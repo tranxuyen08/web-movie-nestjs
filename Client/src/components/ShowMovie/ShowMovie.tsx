@@ -16,26 +16,27 @@ import {
   getMovieRate,
   getMovieShowSlide,
 } from "../../redux/reducer/movieSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store/store";
 import { IMovie } from "../../types/types";
 
 export default function ShowMovie() {
-  const dispatch = useDispatch();
-  const movies = useSelector((state : RootState) => state.movies.data);
+  const dispatch = useAppDispatch();
+  const movies = useSelector((state: RootState) => state.movies.data);
   const [toprate, setToprate] = useState([]);
-  const handleGetMovie = async () => {
-    try {
-      await dispatch(getMovieShowSlide() as any);
-      const data = await dispatch(getMovieRate() as any);
-      setToprate(data.payload.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   useEffect(() => {
-    handleGetMovie();
-  }, []);
+    const promise = dispatch(getMovieShowSlide());
+    const data = dispatch(getMovieRate());
+    data.then((data) => {
+      setToprate(data?.payload?.data);
+    });
+    return () => {
+      promise.abort();
+      data.abort();
+    };
+  }, [dispatch]);
+
   return (
     <>
       <div className="type-movie">Popular</div>
@@ -55,17 +56,18 @@ export default function ShowMovie() {
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper"
       >
-        {movies.length !== 0 && movies?.map((item) => {
-          const imgURL =
-            "https://image.tmdb.org/t/p/" + "original" + item.poster;
-          return (
-            <SwiperSlide key={item?._id}>
-              <Link to={`/detail/${item?._id}`}>
-                <img src={imgURL} />
-              </Link>
-            </SwiperSlide>
-          );
-        })}
+        {movies.length !== 0 &&
+          movies?.map((item) => {
+            const imgURL =
+              "https://image.tmdb.org/t/p/" + "original" + item.poster;
+            return (
+              <SwiperSlide key={item?._id}>
+                <Link to={`/detail/${item?._id}`}>
+                  <img src={imgURL} />
+                </Link>
+              </SwiperSlide>
+            );
+          })}
       </Swiper>
       <div className="type-movie">Top Rate</div>
       <Swiper

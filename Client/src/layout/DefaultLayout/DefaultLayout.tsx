@@ -1,9 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import "./DefaultLayout.css";
 import RightBar from "../../components/RightBar/RightBar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import {DefaultLayoutProps} from '../../types/types'
-// import FilterMovie from "../../components/FilterMovie/FilterMovie";
+// import SortMovie from "../../components/sortMovie/FilterMovie";
+// import FilterMovie from "../../components/FilterMovie";
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
@@ -13,7 +14,10 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
         <div className="container-middle">{children}</div>
       </div>
       <RightBar />
-      {/* <FilterMovie/> */}
+      {/* <div className="group-sort-filter">
+      <SortMovie/>
+      <FilterMovie/>
+      </div> */}
     </>
   );
 };

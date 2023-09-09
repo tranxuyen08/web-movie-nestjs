@@ -6,12 +6,20 @@ export class MovieAPI {
     const params = {
       page: paginate,
       limit: 10,
+      // _sort:mosst rating
+      // _filter:
+      // _genres:
+      // _process0
     };
+
     return axios.get(url, { params: params });
   }
-  static getMovieShowSlide() {
+
+  static getMovieShowSlide(cancelRequest: any) {
     const url = 'http://localhost:8000/api/v1/movie/popular'
-    return axios.get(url)
+    return axios.get(url, {
+      signal: cancelRequest
+    })
   }
   static getMovieRate() {
     const url = 'http://localhost:8000/api/v1/movie/rate'
@@ -19,7 +27,6 @@ export class MovieAPI {
   }
   static getMovieSearch(params : string) {
     const url = `http://localhost:8000/api/v1/movie/search?title=${params}`
-    console.log(params);
     return axios.get(url)
   }
 }

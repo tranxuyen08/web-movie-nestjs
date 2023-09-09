@@ -13,7 +13,6 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = (props) => {
   const { pagination, onPageChange } = props;
   const { _limit, _page, _totalMovie } = pagination;
-
   const totalPage = Math.ceil(Number(_totalMovie) / Number(_limit));
   const handleClick = (newPage: number) => {
     if (onPageChange) {

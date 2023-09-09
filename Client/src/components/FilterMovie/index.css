@@ -1,0 +1,48 @@
+.wrapper-filter {
+  padding: 10px;
+  background-color: #333335;
+  margin: 20px 20px 0 0;
+  border-radius: 4px;
+}
+
+.group-filter {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: stretch;
+}
+
+.tag-filter {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #726f6f;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tag-filter.check {
+  background-color: rgb(241, 162, 241);
+  color: #fff;
+}
+
+.tag-filter.check:hover {
+  color: #fff;
+}
+
+.tag-filter:hover {
+  color: #9e9494;
+}
+
+.progress-bar {
+  width: 100%;
+}
+
+.group-progress {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+}

@@ -34,6 +34,8 @@ export class ProductsMovie extends Document {
 
   @Prop()
   popularity: number;
+  @Prop()
+  runtime: number;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(ProductsMovie);

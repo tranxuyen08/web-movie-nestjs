@@ -52,7 +52,7 @@ const Detail: React.FC = () => {
       );
       setValue(movieData.vote_average);
     } catch (error) {
-      console.error(11111111, error);
+      console.error(error);
     }
   };
 
@@ -160,7 +160,7 @@ const Detail: React.FC = () => {
                     Language: <span>English</span>
                   </p>
                   <p className="detail-content">
-                    Ep Length: <span>1h20p</span>
+                    Ep Length: <span>{movie?.runtime} min</span>
                   </p>
                 </div>
               </div>

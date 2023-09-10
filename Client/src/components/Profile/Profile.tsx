@@ -6,7 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BaseAxios from "../../api/axiosClient";
 const Profile: React.FC = () => {
-  let userLogin: any = localStorage.getItem("userLogin") ? localStorage.getItem("userLogin") as any : {};
+  let userLogin: any = localStorage.getItem("userLogin")
+    ? (localStorage.getItem("userLogin") as any)
+    : {};
   userLogin = JSON.parse(userLogin);
   const [firstName, setFirstName] = useState<string>(userLogin?.firstName);
   const [lastName, setLastName] = useState<string>(userLogin?.lastName);
@@ -16,12 +18,8 @@ const Profile: React.FC = () => {
   const [originalLastName, setOriginalLastName] = useState<string>(
     userLogin?.lastName
   );
-  const [isEditingFirstName, setIsEditingFirstName] = useState<boolean>(
-    false
-  );
-  const [isEditingLastName, setIsEditingLastName] = useState<boolean>(
-    false
-  );
+  const [isEditingFirstName, setIsEditingFirstName] = useState<boolean>(false);
+  const [isEditingLastName, setIsEditingLastName] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [uploadKey, setUploadKey] = useState<number>(0);
 
@@ -95,11 +93,13 @@ const Profile: React.FC = () => {
       }
     } catch (error) {
       // console.error("Error uploading image:", error);
-      console.log(error)
+      console.log(error);
     }
   };
   const saveProfileData = () => {
-    const UserLogin: any = localStorage.getItem("userLogin") ? JSON.parse(localStorage.getItem("userLogin") as any) : {};
+    const UserLogin: any = localStorage.getItem("userLogin")
+      ? JSON.parse(localStorage.getItem("userLogin") as any)
+      : {};
     BaseAxios.patch(`/api/v1/users/update/${UserLogin._id}`, {
       firstName: firstName,
       lastName: lastName,
@@ -129,8 +129,9 @@ const Profile: React.FC = () => {
   };
 
   useEffect(() => {
-    const updatedUser: any =
-    localStorage.getItem("userLogin") ? localStorage.getItem("userLogin")as any : {};
+    const updatedUser: any = localStorage.getItem("userLogin")
+      ? (localStorage.getItem("userLogin") as any)
+      : {};
     setFirstName(updatedUser?.firstName);
     setLastName(updatedUser?.lastName);
   }, [uploadKey]);
@@ -240,8 +241,7 @@ const Profile: React.FC = () => {
                       placeholder="New Password"
                       readOnly
                     />
-                    <button className="btn btn-edit">
-                    </button>
+                    <button className="btn btn-edit"></button>
                   </div>
                 </div>
                 <button className="btn btn-delete">Delete Account</button>
@@ -254,25 +254,26 @@ const Profile: React.FC = () => {
                   <div className="avatar-profile">
                     <img src={userLogin?.avatar} alt="" />
                   </div>
-
-                  <label htmlFor="file" className="btn btn-upload">
-                    <AiOutlineCloudUpload className="icon-upload" />
-                    <p>Upload Image</p>
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    name="images"
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
-                  />
-                  <button
-                    className="btn btn-upload"
-                    onClick={handleUploadImage}
-                  >
-                    {" "}
-                    Save
-                  </button>
+                  <div className="action-upload">
+                    <label htmlFor="file" className="btn btn-upload">
+                      <AiOutlineCloudUpload className="icon-upload" />
+                      <p>Upload</p>
+                    </label>
+                    <input
+                      type="file"
+                      id="file"
+                      name="images"
+                      style={{ display: "none" }}
+                      onChange={handleImageChange}
+                    />
+                    <button
+                      className="btn btn-upload"
+                      onClick={handleUploadImage}
+                    >
+                      {" "}
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

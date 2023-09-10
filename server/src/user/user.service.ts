@@ -87,7 +87,6 @@ export class UsersService {
           );
           // Thêm refreshToken vào mảng refreshTokenArr
           refreshTokenArr.push(refreshToken);
-          console.log('refreshTokenArr', refreshTokenArr);
           const { password, ...userData } = checkEmail.toObject();
           res.cookie('refreshToken', refreshToken, {
             httpOnly: true,

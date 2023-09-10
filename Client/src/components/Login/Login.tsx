@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../redux/reducer/userSlice";
 import BaseAxios from "../../api/axiosClient";
 import queryString from "query-string";
+import jwtDecode from "jwt-decode";
 // import dotenv from 'dotenv';
 
 // dotenv.config()
@@ -44,7 +45,14 @@ const Login: React.FC = () => {
     password: "",
   });
   const token = localStorage.getItem("accessToken");
-
+  const oauthURL = getOauthGoogleUrl();
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    deleteCookie("refreshToken");
+    localStorage.removeItem("userLogin");
+    // window.location.reload();
+  };
+  logout()
   // khi người dùng đăng nhập mà /login thì tự động xoá
   useEffect(() => {
     if (token) {
@@ -63,22 +71,6 @@ const Login: React.FC = () => {
     }
   }, []);
 
-  const oauthURL = getOauthGoogleUrl();
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refresh_token");
-    window.location.reload();
-  };
-  // const isAuthenticated = Boolean(localStorage.getItem("access_token"));
-
-  // {isAuthenticated ? (
-  //   <div>
-  //     <p>Xin chào, bạn đã login thành công</p>
-  //     <button onClick={logout}>Click để logout</button>
-  //   </div>
-  // ) : (
-  //   <Link to={oauthURL}>Login with Google</Link>
-  // )}
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState({
@@ -153,12 +145,35 @@ const Login: React.FC = () => {
     }
   };
 
+  // Util để lấy refreshToken từ cookie và cập nhật vào localStorage
+const getRefreshTokenFromCookie = () => {
+  const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+  for (const cookie of cookies) {
+    const [name, value] = cookie.split('=');
+    if (name === 'refreshToken') {
+      localStorage.setItem('refreshToken', value);
+      return value;
+    }
+  }
+  return null;
+};
+
   useEffect(() => {
     const searchParams = queryString.parse(window.location.search);
     if (searchParams.access_token !== undefined && searchParams.refresh_token !== undefined) {
-      localStorage.setItem('accessToken', searchParams.access_token as any);
-      localStorage.setItem('refreshToken', searchParams.refresh_token as any);
-      navigate('/'); // Điều hướng sau khi lưu thành công
+      const accessToken = searchParams.access_token as string;
+      const refreshToken = searchParams.refresh_token as string;
+
+      // Giải mã accessToken (nếu cần)
+      const userLogin: any = jwtDecode(accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('userLogin', JSON.stringify(userLogin));
+
+      // Lưu refreshToken vào cookie
+      document.cookie = `refreshToken=${refreshToken}; expires=Thu, 01 Jan 2030 00:00:00 UTC; path=/;`;
+
+      // Điều hướng sau khi lưu thành công
+      navigate('/');
     }
   }, [navigate]);
   return (

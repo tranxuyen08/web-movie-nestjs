@@ -1,10 +1,10 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Document } from 'mongoose';
 import { Exclude } from 'class-transformer';
-export type AuthUserGooglesDocument = AuthUserGoogle & Document;
+export type authGooglesDocument = authGoogle & Document;
 
-@Schema({ timestamps: true })
-export class AuthUserGoogle extends Document {
+@Schema({ timestamps: true ,collection: 'authGoogleUsers' })
+export class authGoogle extends Document {
   @Prop({ required: true }) // Set required to true
   firstName: string;
 
@@ -15,7 +15,7 @@ export class AuthUserGoogle extends Document {
   email: string;
 
   // @Exclude() // ẩn đi filed mình muốn
-  @Prop({ required: true }) // Set required to true
+  @Prop() // Set required to true
   password: string;
 
   @Prop({ default: 1 })
@@ -34,4 +34,4 @@ export class AuthUserGoogle extends Document {
   expiration_Date ?: Date
 }
 
-export const AuthUserGooglesSchema = SchemaFactory.createForClass(AuthUserGoogle);
+export const authGooglesSchema = SchemaFactory.createForClass(authGoogle);

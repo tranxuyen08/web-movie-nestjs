@@ -38,7 +38,7 @@ BaseAxios.interceptors.request.use(
     try {
       const date = new Date(); //Tạo ngày giờ hiện tại kiểm tra
       if (token) {
-        const decodedToken: DecodedToken = await   jwtDecode(token); //giải mã token
+        const decodedToken: DecodedToken = await jwtDecode(token); //giải mã token
         if (decodedToken.exp < date.getTime() / 1000) {
           await refreshToken().then((data)=>{
             token = data

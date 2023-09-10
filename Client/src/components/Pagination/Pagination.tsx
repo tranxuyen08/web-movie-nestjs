@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Pagination.css";
 
 interface PaginationProps {
@@ -13,10 +13,15 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = (props) => {
   const { pagination, onPageChange } = props;
   const { _limit, _page, _totalMovie } = pagination;
+  const [selectedPage, setSelectedPage] = useState<number>(_page);
+
   const totalPage = Math.ceil(Number(_totalMovie) / Number(_limit));
   const handleClick = (newPage: number) => {
     if (onPageChange) {
       onPageChange(newPage);
+
+      // Cập nhật selectedPage khi người dùng chọn một trang mới
+      setSelectedPage(newPage);
     }
   };
 
@@ -32,7 +37,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       {Array.from({ length: totalPage }).map((_, index) => (
         <p
           key={index}
-          className={_page === index + 1 ? "active" : ""}
+          className={selectedPage === index + 1 ? "active" : ""}
           onClick={() => handleClick(index + 1)}
         >
           {index + 1}

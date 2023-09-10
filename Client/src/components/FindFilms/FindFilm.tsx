@@ -38,7 +38,7 @@ const FindFilm: React.FC = () => {
     }
   };
   const [filter, setFilter] = useState({
-    _limit: 10,
+    _limit: 12,
     _page: 1,
   });
 

@@ -5,7 +5,7 @@ export class MovieAPI {
     const url = 'http://localhost:8000/api/v1/movie';
     const params = {
       page: paginate,
-      limit: 10,
+      limit: 12,
       // _sort:mosst rating
       // _filter:
       // _genres:

@@ -30,7 +30,7 @@ export class ProductsController {
   getProducts(
     @Res() res: Response,
     @Query('_page') page: number = 1,
-    @Query('_limit') limit: number = 10,
+    @Query('_limit') limit: number = 12,
     @Query('_sort')  sort: string = " ",
     @Query('_process')  process: number = 0,
   ) {

@@ -10,58 +10,35 @@ export class ProductService {
     @InjectModel('ProductsMovie') private productModel: Model<ProductsMovie>,
   ) {}
 
-  async findAll(res, page, limit, sort, process): Promise<ProductsMovie[]> {
-    const totalMovie = await this.productModel.find();
+  async findAll(res, page, limit, sort, process, genres): Promise<ProductsMovie[]> {
+    let query: any = {
+      runtime: { $gte: process },
+    };
+
+    if (genres.length > 0) {
+      query.typeMovie = { $all: genres };
+    }
+
+    const totalMovie = await this.productModel.find(query);
     try {
       const skip = (page - 1) * limit;
+      // Thực hiện filter và sort ở đây
+      let moviesQuery = this.productModel.find(query);
+
       if (sort === 'vote_average') {
-        // sort movie theo vote average
-        const movies = await this.productModel
-          .find({ runtime: { $gte: process } })
-          .sort({ vote_average: -1 }) // Sắp xếp theo vote_average giảm dần
-          .skip(skip)
-          .limit(limit)
-          .exec();
-        return res.status(200).json({
-          data: movies,
-          pagination: {
-            _limit: Number(limit),
-            _page: Number(page),
-            _totalMovie: totalMovie.length,
-          },
-        });
+        moviesQuery = moviesQuery.sort({ vote_average: -1 });
       } else if (sort === 'popularity') {
-        // sort movie theo popularity
-        const movies = await this.productModel
-          .find({ runtime: { $gte: process } }) // Lọc bộ phim có vote_average lớn hơn 5
-          .sort({ popularity: -1 }) // Sắp xếp theo vote_average giảm dần
-          .skip(skip)
-          .limit(limit)
-          .exec();
-        return res.status(200).json({
-          data: movies,
-          pagination: {
-            _limit: Number(limit),
-            _page: Number(page),
-            _totalMovie: totalMovie.length,
-          },
-        });
-      } else {
-        //lấy tất cả movie ko sort
-        const movies = await this.productModel
-          .find({ runtime: { $gte: process } }) // Lọc bộ phim có vote_average lớn hơn 5
-          .skip(skip)
-          .limit(limit)
-          .exec();
-        return res.status(200).json({
-          data: movies,
-          pagination: {
-            _limit: Number(limit),
-            _page: Number(page),
-            _totalMovie: totalMovie.length,
-          },
-        });
+        moviesQuery = moviesQuery.sort({ popularity: -1 });
       }
+      const movies = await moviesQuery.skip(skip).limit(limit).exec();
+      return res.status(200).json({
+        data: movies,
+        pagination: {
+          _limit: Number(limit),
+          _page: Number(page),
+          _totalMovie: totalMovie.length,
+        },
+      });
     } catch (error) {
       return res.status(500).json({ msg: 'Lỗi server' });
     }

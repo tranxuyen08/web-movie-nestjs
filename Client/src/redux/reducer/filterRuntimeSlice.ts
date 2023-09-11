@@ -5,7 +5,6 @@ const filterProcessMovie = createSlice({
   initialState: "0", // Giá trị ban đầu của sortOption
   reducers: {
     processMovie: (state: any, action) => {
-      console.log("state", action.payload);
       state = action.payload;
       return state;
     },

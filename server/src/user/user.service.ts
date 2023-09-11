@@ -169,7 +169,6 @@ export class UsersService {
           return res.status(400).json('refreshToken is not valid');
         }
         const { iat, exp, ...userOther } = user as { [key: string]: any }; // Type assertion for userOther
-        console.log(user);
         refreshTokenArr = refreshTokenArr.filter(
           (token) => token !== refreshToken,
         ); // Lọc ra những thằng cũ

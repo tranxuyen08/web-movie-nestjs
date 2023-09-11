@@ -12,6 +12,7 @@ import { getAll } from "../../redux/reducer/movieSlice";
 import LoadingComponent from "../Loading";
 import Pagination from "../Pagination/Pagination";
 import { RootState } from "../../redux/store/store";
+import { MovieAPI } from "../../api/movieApiClient";
 
 // interface IMovieState {
 //   data: IMovie[]; // Sửa lại dữ liệu của IMovieState để phù hợp với Redux store
@@ -22,6 +23,7 @@ const FindFilm: React.FC = () => {
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootState) => state.movies.pagination); // Thay any bằng kiểu dữ liệu phù hợp
   const sortValue = useSelector((state: RootState) => state.sortData);
+  const genresValue = useSelector((state: RootState) => state.filterGenresMovie)
   const [dataMovie, setDataMovie] = useState<Array<any>>([]); // Thay any[] bằng kiểu dữ liệu phù hợp
   const [isLoad, setIsLoad] = useState<boolean>(true);
   const [isSort, setIsSort] = useState<boolean>(false);
@@ -52,14 +54,13 @@ const FindFilm: React.FC = () => {
     setIsLoad(true)
     try {
       const queryString = querystring.stringify(filter);
-      const response = await BaseAxios.get(
-        `/api/v1/movie?${queryString}&_sort=${sortValue}&_process=${valueProgress}`
-      );
+      // const response = await BaseAxios.get(
+      //   `/api/v1/movie?${queryString}&_sort=${sortValue}&_process=${valueProgress}&_genres=${[]}`
+      // );
+      const response = await MovieAPI.getAllMovie(pagination._page,queryString,sortValue,Number(valueProgress),genresValue)
       setDataMovie(response.data.data);
       setIsLoad(false);
-      console.log("lojt khe")
     } catch (error) {
-      console.log("lojt khe")
       console.log(error);
       console.error(error);
       setIsLoad(false);
@@ -67,7 +68,7 @@ const FindFilm: React.FC = () => {
   };
   useEffect(() => {
     handleFilter();
-  }, [filter, sortValue,valueProgress]);
+  }, [filter, sortValue,valueProgress,genresValue]);
 
   useEffect(() => {
     handleGetAPI(1);

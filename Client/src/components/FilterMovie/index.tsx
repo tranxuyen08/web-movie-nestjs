@@ -4,6 +4,7 @@ import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { processMovie } from "../../redux/reducer/filterRuntimeSlice";
+import { genresMovie } from "../../redux/reducer/filterGenresMoviesSlice";
 
 const typeMovie: string[] = [
   "Action",
@@ -26,8 +27,11 @@ const FilterMovie: React.FC = () => {
     // runtimeMovie
     setTimeout(() => {
       dispatch(processMovie(valueProgress));
+      if (dataFilter.length > 0) {
+        dispatch(genresMovie(dataFilter));
+      }
     }, 1000);
-  }, [valueProgress]);
+  }, [valueProgress,dataFilter]);
   return (
     <div className="wrapper-filter">
       <div className={openBox ? "sort-header none" : "sort-header"}>

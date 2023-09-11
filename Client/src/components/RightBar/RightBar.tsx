@@ -100,7 +100,7 @@ const RightBar: React.FC = () => {
                 </div>
               </div>
             </Link>
-            <Link to="/see-more">
+            <Link to="/Explore">
               <button className="btn btn-see-more">See More</button>
             </Link>
           </div>

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const sortSlice = createSlice({
   name: "sort",
-  initialState: " ", // Giá trị ban đầu của sortOption
+  initialState: "", // Giá trị ban đầu của sortOption
   reducers: {
     addSort: (state, action) => {
       return (state = action.payload);
@@ -11,7 +11,7 @@ const sortSlice = createSlice({
 });
 const sortPopulateSlice = createSlice({
   name: "sortPopulate",
-  initialState: " ",
+  initialState: "",
   reducers: {
     addSortPopulate: (state, action) => {
       return (state = action.payload);

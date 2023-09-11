@@ -25,7 +25,6 @@ export class GoogleAuthController {
         id_token,
         access_token,
       });
-      console.log('googleUser', googleUser);
 
       // Kiểm tra email đã được xác minh từ Google
       if (!googleUser.verified_email) {

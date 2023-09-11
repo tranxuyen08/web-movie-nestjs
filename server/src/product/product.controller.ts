@@ -32,9 +32,10 @@ export class ProductsController {
     @Query('_page') page: number = 1,
     @Query('_limit') limit: number = 12,
     @Query('_sort')  sort: string = " ",
-    @Query('_process')  process: number = 0,
+    @Query('_process') process: number = 0,
+    @Query('_genres') genres: any = []
   ) {
-    this.productService.findAll(res, page, limit,sort,process);
+    this.productService.findAll(res, page, limit,sort,process,genres);
   }
   @Get("popular")
   async getProductByPopular(@Res() res: Response, @Query('_limit') limit: number = 5){

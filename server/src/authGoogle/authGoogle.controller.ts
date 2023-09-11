@@ -10,10 +10,14 @@ let refreshTokenArr: string[] = [];
 @Controller('api/oauth/google')
 export class GoogleAuthController {
   constructor(
-    @InjectModel('authGoogle') private userModel: Model<authGoogle>,
+    @InjectModel('authGoogle') private userModelAuthGoole: Model<authGoogle>,
     private readonly googleAuthService: GoogleAuthService,
   ) {}
 
+  @Get()
+  async findAllUsersAuthGoogle() {
+    return await this.userModelAuthGoole.find()
+  }
   @Get()
   async handleLoginGoogle(@Res() res, @Query('code') code: string) {
     try {
@@ -32,13 +36,13 @@ export class GoogleAuthController {
           message: 'Google email not verified',
         };
       }
-      const existingUser = await this.userModel.findOne({
+      const existingUser = await this.userModelAuthGoole.findOne({
         email: googleUser.email,
       });
 
       if (!existingUser) {
         // Người dùng chưa tồn tại, tạo một bản ghi mới
-        const newUser = new this.userModel({
+        const newUser = new this.userModelAuthGoole({
           firstName: googleUser.family_name,
           lastName: googleUser.given_name,
           email: googleUser.email,

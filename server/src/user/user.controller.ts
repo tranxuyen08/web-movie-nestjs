@@ -20,14 +20,15 @@ import { multerUpload } from 'src/config/multer.config';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 @Controller('/api/v1/users')
 export class UsersController {
-  constructor(public usersService: UsersService) {
-    //DONT DO THIS ON REAL APP
-    //USE DEPENDENCY INJECTION
-  }
+  constructor(public usersService: UsersService) {}
   // @UseInterceptors(ClassSerializerInterceptor) // phải có thêm đoạn này để thực hiện ẩn filed mong muốn
   @Get()
   getUsers() {
     return this.usersService.findAllUsers();
+  }
+  @Get('/:id')
+  getUsersById(@Param('id') id) {
+    return this.usersService.findUsersById(id);
   }
   @Get('/search')
   getUserByEmail(@Query('email') email: string) {
@@ -42,17 +43,10 @@ export class UsersController {
     return this.usersService.handleLogin(body, res);
   }
   @Patch('update/:id')
-  // @UseInterceptors(
-  //   FileFieldsInterceptor([{name : 'avatar', maxCount: 1}], multerUpload)
-  // )
   async updateUser(
-    // @UploadedFiles() files: any,
     @Body() body: any,
     @Param('id') id: string,
   ) {
-    // if(files.avatar){
-    //   body.avatar = files.avatar[0].path
-    // }
     const updateUser = await this.usersService.handleUpdateUser(body, id);
     return updateUser;
   }

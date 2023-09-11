@@ -8,7 +8,7 @@ export class ProductsMovie extends Document {
   @Prop({unique: true})
   title: string;
 
-  @Prop()
+  @Prop({default : 0})
   vote_average: number;
 
   @Prop()
@@ -23,18 +23,18 @@ export class ProductsMovie extends Document {
   @Prop([String])
   typeMovie: string[];
 
-  @Prop()
+  @Prop({required: true})
   backdrop_path: string;
 
-  @Prop()
+  @Prop({required: true})
   poster: string;
 
-  @Prop()
+  @Prop({required : true})
   role_movie: number;
 
-  @Prop()
+  @Prop({default: 0})
   popularity: number;
-  @Prop()
+  @Prop({required : true})
   runtime: number;
 }
 

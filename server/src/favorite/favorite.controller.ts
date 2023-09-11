@@ -12,7 +12,6 @@ export class FavoriteController {
     @Res() res: Response,
     @Body() body: { idMovie: ObjectId },
   ) {
-
     return await this.favoriteService.handleLikeMovie(res, {
       idMovie: body.idMovie,
       idUser: req.user.userId,

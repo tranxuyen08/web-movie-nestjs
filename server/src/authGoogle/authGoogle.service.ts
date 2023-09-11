@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import axios from 'axios';
+import { Model } from 'mongoose';
+import { authGoogle } from './authGoogle.schema';
 require("dotenv").config()
 
 @Injectable()
 export class GoogleAuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService){}
   async getEmailFromCode(code: string) {
     const data = await this.getOauthGoogleToken(code);
     // Đây, bạn có thể trích xuất email từ data nếu có thông tin email trong response.

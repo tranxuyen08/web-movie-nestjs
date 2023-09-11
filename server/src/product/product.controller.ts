@@ -56,8 +56,7 @@ export class ProductsController {
     ),
   )
   creteProduct(@UploadedFiles() files: any, @Body() body) {
-    let avatarUrl: string;
-    if (files.backdrop_path & files.poster) {
+    if (files.backdrop_path && files.poster) {console.log('davao......');
       body.backdrop_path = files.backdrop_path[0].path;
       body.poster = files.poster[0].path;
     }

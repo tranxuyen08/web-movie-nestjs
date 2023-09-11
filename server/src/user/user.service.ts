@@ -6,20 +6,32 @@ import { UserDTO } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Response, Request } from 'express';
-import cookie from 'cookie-parser';
 import { IUserLogin } from './types';
+import { authGoogle } from 'src/authGoogle/authGoogle.schema';
 
 require('dotenv').config();
 let refreshTokenArr: string[] = [];
-
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private userModel: Model<User>,
+    @InjectModel('authGoogle') private authGoogleModel: Model<authGoogle>,
+  ) {}
 
-  async findAllUsers(): Promise<User[]> {
-    return await this.userModel.find().exec();
+  async findAllUsersAuthGoogle(): Promise<User[]> {
+    return await this.authGoogleModel.find().exec();
   }
+  async findAllUsers(): Promise<User[]> {
+    const userLoginAccount = await this.userModel.find().exec();
+    const googleLoginAccount = await this.findAllUsersAuthGoogle();
+    let totalUsers: any[] = [];
 
+    totalUsers = userLoginAccount.concat(googleLoginAccount as any);
+    return totalUsers;
+  }
+  async findUsersById(id){
+    return await this.userModel.findById(id).exec()
+  }
   async findUserByEmail(email: string): Promise<User[] | { message: string }> {
     try {
       const searchRegex = new RegExp(email, 'i');
@@ -106,6 +118,7 @@ export class UsersService {
     return res.status(200).json({ message: 'Login failed' });
   }
   async handleUpdateUser(data, _id: string) {
+    console.log("data",data)
     try {
       const userUpdate = await this.userModel.findByIdAndUpdate(_id, data, {
         new: true,
@@ -136,7 +149,7 @@ export class UsersService {
         userUpdate.avatar = data.avatar;
       }
       await userUpdate.save();
-      return userUpdate
+      return userUpdate;
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error('Error while updating product:', error);

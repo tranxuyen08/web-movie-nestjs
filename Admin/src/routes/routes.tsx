@@ -7,6 +7,9 @@ import Users from "../components/UserManager/UserManager";
 import LoginAdmin from "../components/Login/LoginAdmin";
 import NotFound from "../pages/NotFound/NotFound";
 import RequiredAdmin from "../components/RequireAdmin/RequireAdmin";
+import UsersDashboard from "../components/UserDashboard/UsersDashboard";
+import ProductDasboard from "../components/ProductsDasboard/ProductDasboard";
+import DasBoardLayOut from "../layouts/dasboardLayout";
 const Router = () => {
   return (
     <Routes>
@@ -34,6 +37,22 @@ const Router = () => {
           <DefaultLayout>
             <CreateProduct />
           </DefaultLayout>
+        }
+      />
+       <Route
+        path="/dashboard/dashboard-user"
+        element={
+          <DasBoardLayOut>
+            <UsersDashboard />
+          </DasBoardLayOut>
+        }
+      />
+       <Route
+        path="/dashboard/dashboard-products"
+        element={
+          <DasBoardLayOut>
+            <ProductDasboard />
+          </DasBoardLayOut>
         }
       />
       </Route>

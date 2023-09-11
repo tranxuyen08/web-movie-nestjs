@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SideBarAdmin.css";
 import { Link, useLocation } from "react-router-dom";
 import { BiLogOutCircle, BiCameraMovie } from "react-icons/bi";
@@ -7,12 +7,21 @@ import {
   AiOutlineLogin,
   AiOutlineUser,
   AiOutlineVideoCameraAdd,
+  AiOutlineDashboard,
+  AiOutlineUsergroupDelete,
+  AiFillProject,
 } from "react-icons/ai";
+import { FaMoneyCheckAlt } from "react-icons/fa";
 
 const SideBarAdmin: React.FC = () => {
   const location = useLocation();
-  const accessTokenLogin =
-    localStorage.getItem("accessToken") || ""
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+
+  const toggleDashboard = () => {
+    setIsDashboardOpen(!isDashboardOpen);
+  };
+
+  const accessTokenLogin = localStorage.getItem("accessToken") || "";
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -68,11 +77,39 @@ const SideBarAdmin: React.FC = () => {
                     <p>Add Product</p>
                   </Link>
                 </li>
+                <li
+                  className={
+                    location.pathname === "/dashboard-user" ? "active" : ""
+                  }
+                >
+                  <Link to="#" onClick={toggleDashboard}>
+                    <AiOutlineDashboard className="icon" />
+                    <p>Dashboard</p>
+                  </Link>
+                </li>
+                  <ul className={isDashboardOpen ? "manager-dashboard active" : "manager-dashboard"}>
+                    {/* Thêm các mục menu con của Dashboard ở đây */}
+                    <li>
+                      <Link to="/dashboard/dashboard-user">
+                        <AiOutlineUsergroupDelete />
+                        <p> Users</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard/dashboard-products">
+                        <FaMoneyCheckAlt />
+                        <p> Sales Management</p>
+                      </Link>
+                    </li>
+                  </ul>
+
               </ul>
             </div>
             <div className="item-nav">
               <ul className="">
-                <li className={location.pathname === "/Profile" ? "active" : ""}></li>
+                <li
+                  className={location.pathname === "/Profile" ? "active" : ""}
+                ></li>
                 {accessTokenLogin ? (
                   <li
                     onClick={handleLogout}

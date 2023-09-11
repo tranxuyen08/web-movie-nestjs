@@ -1,0 +1,55 @@
+.wrapper-infor-model-product{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(201, 197, 197, 0.2);
+
+}
+.product-info-modal {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+  z-index: 9999;
+  top: 100%; /* Hiển thị bên dưới sản phẩm */
+  left: 0;
+  display: block;
+  display: flex;
+  justify-content: center;
+  width:200px;
+  height: 270px;
+  background-color: rgba(0, 0, 0, 0.2);
+
+}
+
+.content-img:hover .product-info-modal {
+  display: block; /* Hiển thị modal khi hover */
+}
+.content-img-model{
+  margin: 0 auto;
+  width: 70px;
+  height: 120px;
+}
+.content-img-model > img{
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+/* .product-info-wrapper{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */

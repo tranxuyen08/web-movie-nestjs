@@ -8,8 +8,8 @@ import LoadingComponent from "../Loading";
 import ModelComfirmDelete from "../ModalComfirm/ModalConfirm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {Movie} from '../../types/types'
-
+import { Movie } from "../../types/types";
+import "./ProductManager.css";
 
 const ProductManager: React.FC = () => {
   const [dataMovie, setData] = useState<Movie[]>([]);
@@ -21,6 +21,15 @@ const ProductManager: React.FC = () => {
   const [isLoad, setIsLoad] = useState(true);
   const [deleteProductId, setDeleteProductId] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
+
+  const handleMouseEnter = (item: Movie) => {
+    setHoveredItemId(item._id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItemId(null);
+  };
 
   const handleGetMovie = async (page: number) => {
     try {
@@ -111,17 +120,17 @@ const ProductManager: React.FC = () => {
       <div className="table-content">
         <div className="wrapper-title">
           <span className="sperator"></span>
-          <span className="title-page">Quản Lý Sản Phẩm</span>
+          <span className="title-page">Product Management</span>
         </div>
         <table>
           <thead>
             <tr>
-              <th>STT</th>
-              <th>Ảnh</th>
-              <th>Tên Phim</th>
-              <th>Thể Loại</th>
-              <th>Ngày Chiếu</th>
-              <th colSpan={2}>Hành Động</th>
+              <th>No.</th>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Genre</th>
+              <th>Status</th>
+              <th colSpan={2}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -138,8 +147,37 @@ const ProductManager: React.FC = () => {
                             : `https://image.tmdb.org/t/p/original${item?.backdrop_path}`
                         }
                         alt="product"
+                        onMouseEnter={() => handleMouseEnter(item)}
+                        onMouseLeave={handleMouseLeave}
                       />
                     </div>
+                    {hoveredItemId === item._id && (
+                      <div className="wrapper-infor-model-product">
+                        <div className="product-info-wrapper">
+                          <div className="content-img-model">
+                            <img
+                              src={
+                                item?.backdrop_path.includes("https://")
+                                  ? item?.backdrop_path
+                                  : `https://image.tmdb.org/t/p/original${item?.backdrop_path}`
+                              }
+                              alt="product"
+                            />
+                          </div>
+                          <p>Product Name: {item.title}</p>
+                          <p>
+                            Genre:{" "}
+                            {Array.isArray(item.typeMovie)
+                              ? item.typeMovie.join(", ")
+                              : item.typeMovie}
+                          </p>
+                          <p>
+                            Status:{" "}
+                            {item.role_movie === 1 ? "Free" : "Not Free"}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </td>
                   <td>{item?.title}</td>
                   <td>
@@ -147,7 +185,7 @@ const ProductManager: React.FC = () => {
                       ? item.typeMovie.join(", ")
                       : item.typeMovie}
                   </td>
-                  <td>{item?.role_movie === 1 ? "Free" : "No Free"}</td>
+                  <td>{item?.role_movie === 1 ? "Free" : "Not Free"}</td>
                   <td>
                     <AiFillDelete
                       onClick={() => handleDelete(item._id)}

@@ -11,15 +11,19 @@ const CheckOut: React.FC = () => {
   let UserLogin: any = localStorage.getItem("userLogin") || "";
   UserLogin = JSON.parse(UserLogin);
   const currentDate = new Date();
-
   // Tính ngày hết hạn sau 30 ngày
   const expirationDate = new Date();
-  expirationDate.setDate(currentDate.getDate() + 60);
+  expirationDate.setDate(currentDate.getDate() + 30);
+  const foreverPaid = new Date()
+  foreverPaid.setFullYear(foreverPaid.getFullYear() + 50)
   const handlePaymentSuccessMonth = async () => {
     // Gọi API để cập nhật role_subscription và ngay_het_han
     await BaseAxios.patch(`/api/v1/users/update/${UserLogin._id}`, {
       role_subscription: 2,
       expiration_Date: expirationDate, // Lưu ngày hết hạn
+      // gói vĩnh viễn false
+      lifetime_Subscription : false,
+      price : 25
     })
       .then((response) => {
         if (response.status === 200) {
@@ -68,6 +72,10 @@ const CheckOut: React.FC = () => {
   const handlePaymentSuccessVIP = async () => {
     await BaseAxios.patch(`/api/v1/users/update/${UserLogin._id}`, {
       role_subscription: 2,
+      expiration_Date: foreverPaid, // Lưu ngày hết hạn
+      // gói vĩnh viễn false
+      lifetime_Subscription : true,
+      price : 50
     })
       .then((response) => {
         if (response.status === 200) {

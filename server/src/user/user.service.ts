@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 import { Response, Request } from 'express';
 import { IUserLogin } from './types';
 import { authGoogle } from 'src/authGoogle/authGoogle.schema';
+import { History } from 'src/saleManagement/saleManagement.schema';
 
 require('dotenv').config();
 let refreshTokenArr: string[] = [];
@@ -15,6 +16,7 @@ let refreshTokenArr: string[] = [];
 export class UsersService {
   constructor(
     @InjectModel('User') private userModel: Model<User>,
+    @InjectModel('History') private historyModel: Model<History>,
     @InjectModel('authGoogle') private authGoogleModel: Model<authGoogle>,
   ) {}
 
@@ -29,8 +31,8 @@ export class UsersService {
     totalUsers = userLoginAccount.concat(googleLoginAccount as any);
     return totalUsers;
   }
-  async findUsersById(id){
-    return await this.userModel.findById(id).exec()
+  async findUsersById(id) {
+    return await this.userModel.findById(id).exec();
   }
   async findUserByEmail(email: string): Promise<User[] | { message: string }> {
     try {
@@ -118,17 +120,33 @@ export class UsersService {
     return res.status(200).json({ message: 'Login failed' });
   }
   async handleUpdateUser(data, _id: string) {
-    console.log("data",data)
+    console.log('data', data);
     try {
-      const userUpdate = await this.userModel.findByIdAndUpdate(_id, data, {
-        new: true,
-        runValidators: true,
-      });
-      // if (data.avatar) {
-      //   userUpdate.avatar = data.avatar;
-      // }
-      await userUpdate.save();
-      return userUpdate;
+      if (data?.role_subscription === 2) {
+        const userUpdate = await this.userModel.findByIdAndUpdate(_id, data, {
+          new: true,
+          runValidators: true,
+        });
+        const user = await this.userModel.findById(_id)
+        console.log("user",user)
+        const userPaymented = new this.historyModel ({
+          idUser : user._id,
+          price : data.price,
+          expiration_Date : data.expiration_Date,
+          LifetimeSubscriber : data.lifetime_Subscription,
+        })
+        await userPaymented.save()
+        await userUpdate.save()
+        return userPaymented
+
+      } else {
+        const userUpdate = await this.userModel.findByIdAndUpdate(_id, data, {
+          new: true,
+          runValidators: true,
+        });
+        await userUpdate.save();
+        return userUpdate;
+      }
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error('Error while updating product:', error);

@@ -65,7 +65,7 @@ const DasboardContentTop : React.FC = () => {
             </div>
             <div className="card-dashboard-item">
               <div className="card-dashboard-item-1 box-5">
-                <span>MOVIES</span>
+                <span>MY MOVIES</span>
                 <span>{movieLength}</span>
               </div>
               <div className="card-dashboard-item-2 box-6">

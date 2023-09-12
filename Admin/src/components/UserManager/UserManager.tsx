@@ -18,7 +18,6 @@ const Users = () => {
     try {
       const response = await BaseAxios.get("/api/v1/users");
       const managerUser = response.data;
-      console.log("first",response.data)
       setData(managerUser);
       //set loading false khi nhận dữ liệu
       setIsLoad(false);

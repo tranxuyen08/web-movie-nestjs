@@ -5,10 +5,11 @@ import { UsersController } from './user.controller';
 import { User, UsersSchema } from './user.schema';
 import { CheckAuth } from 'src/middleware/auth.middleware';
 import { authGooglesSchema } from 'src/authGoogle/authGoogle.schema';
+import { HistorySchema } from 'src/saleManagement/saleManagement.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: "User", schema: UsersSchema, collection: 'users' },{ name: "authGoogle", schema: authGooglesSchema, collection: 'authGoogle' }]),
+    MongooseModule.forFeature([{ name: "User", schema: UsersSchema, collection: 'users' },{ name: "authGoogle", schema: authGooglesSchema, collection: 'authGoogle' },{ name: "History", schema: HistorySchema, collection: 'salesManagement' }]),
   ],
   controllers: [UsersController],
   providers: [UsersService],

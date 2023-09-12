@@ -1,0 +1,26 @@
+/* .td-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+.sales{
+  padding-top: 10px;
+}
+table tbody tr td {
+  text-align: center !important;
+}
+
+.wrapper-payment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wrapper-payment h4 {
+  font-size: 16px;
+}
+
+.wrapper-payment span {
+  font-weight: 600;
+  font-size: 18px;
+}

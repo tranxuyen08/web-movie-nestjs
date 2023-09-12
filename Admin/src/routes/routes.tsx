@@ -10,6 +10,7 @@ import RequiredAdmin from "../components/RequireAdmin/RequireAdmin";
 import UsersDashboard from "../components/UserDashboard/UsersDashboard";
 import ProductDasboard from "../components/ProductsDasboard/ProductDasboard";
 import DasBoardLayOut from "../layouts/dasboardLayout";
+import OrderManager from "../components/OrderManager/OrderManager";
 const Router = () => {
   return (
     <Routes>
@@ -45,6 +46,14 @@ const Router = () => {
           <DasBoardLayOut>
             <UsersDashboard />
           </DasBoardLayOut>
+        }
+      />
+      <Route
+        path="/order-manager"
+        element={
+          <DefaultLayout>
+            <OrderManager />
+          </DefaultLayout>
         }
       />
        <Route

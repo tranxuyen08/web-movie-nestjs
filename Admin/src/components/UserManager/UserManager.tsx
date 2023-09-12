@@ -21,14 +21,12 @@ const Users = () => {
       setData(managerUser);
       //set loading false khi nhận dữ liệu
       setIsLoad(false);
-      console.log(data);
     } catch (error) {
       //cũng set loading false khi call api thất bại
       setIsLoad(false);
       console.error("Error:", error);
     }
   };
-  console.log("data",data)
 
   const handleUpdateRoleUser = async (id: string) => {
     //trước khi gọi api ,thì set Loading true
@@ -99,13 +97,13 @@ const Users = () => {
         <ToastContainer />
         <div className="wrapper-title">
           <span className="sperator"></span>
-          <span className="title-page">Quản Lý Người Dùng</span>
+          <span className="title-page">User Management</span>
         </div>
         <table>
           <thead>
             <tr>
               <th>STT</th>
-              <th>ID Người Dùng</th>
+              <th>ID User</th>
               <th>Email</th>
               <th>Role</th>
               <th>Status Account</th>

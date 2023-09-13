@@ -106,6 +106,7 @@
   }
 
   .menu-left.open {
+    display: block;
     width: 50%;
     /* Chiều rộng menu khi mở */
     left: 0;

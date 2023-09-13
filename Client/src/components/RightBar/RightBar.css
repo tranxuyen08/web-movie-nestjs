@@ -56,14 +56,15 @@
 .trending-movie:hover .trending-img{
   opacity: 0.8;
 }
+.trending-img{
+  width: 150px !important;
+  height: 150px;
+}
 .trending-title{
   display: grid;
   row-gap: 30px;
 }
-.trending-img{
-  width: 100px;
-  height: 150px;
-}
+
 .title-h4{
   color: var(--quaternary-color);
 }

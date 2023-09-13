@@ -3,16 +3,16 @@ import "./RightBar.css";
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+// import { getMovieRate } from "../../redux/reducer/movieSlice";
 // import { getAll } from "../../redux/reducer/movieSlice";
 
 const RightBar: React.FC = () => {
-  // const dispatch = useDispatch();
-  // const movies = useSelector((state) => state?.movie.data?.data);
+  const dispatch = useDispatch();
+  // const movies = useSelector((state: any) => state?.movies?.data);
   const [isLoad, setIsLoad] = useState(true);
-
   const handleGetTrending = async () => {
     try {
-      // await dispatch(getAll());
+      // await dispatch(getMovieRate());
       setIsLoad(false);
       // console.log(movies);
     } catch (err) {
@@ -36,31 +36,39 @@ const RightBar: React.FC = () => {
               placeholder="Search..."
             />
           </div>
-          {/* <ul className="list-hagtag">
-            <li className="item-hagtag">
-              <Link to="/drama">
-                <span>Drama</span>
-              </Link>
-            </li>
-            <li className="item-hagtag">
-              <Link to="/trending">
-                <span>Trending</span>
-              </Link>
-            </li>
-            <li className="item-hagtag">
-              <Link to="/drama">
-                <span>Family</span>
-              </Link>
-            </li>
-            <li className="item-hagtag">
-              <Link to="/drama">
-                <span>Familyzzzz</span>
-              </Link>
-            </li>
-          </ul> */}
           <div className="trending">
             <h3 className="title-h3">Trending</h3>
-            <Link to="/trending" className="trending-movie">
+            {/* {movies.slice(0, 2).map((movie: any) => (
+              <Link
+                to={`/detail/${movie._id}`}
+                key={movie._id}
+                className="trending-movie"
+              >
+                <div className="trending-img">
+                  <img
+                    src={
+                      movie?.poster.includes("http://")
+                        ? movie?.poster
+                        : `https://image.tmdb.org/t/p/original${movie?.poster}`
+                    }
+                    alt="product"
+                  />
+                </div>
+                <div className="trending-info">
+                  <div className="trending-title">
+                    <h4 className="title-h4">{movie.title}</h4>
+                    <p>{movie.release_date.split("T")[0]}</p>
+                    <p className="ratting">
+                      {movie.vote_average}{" "}
+                      <span>
+                        <AiFillStar className="icon-ratting" />
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))} */}
+            <Link to="/detail/64b0babccc4aa109be2b5040" className="trending-movie">
               <div className="trending-img">
                 <img
                   src="https://image.tmdb.org/t/p/w154/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg"
@@ -80,7 +88,7 @@ const RightBar: React.FC = () => {
                 </div>
               </div>
             </Link>
-            <Link to="/trending" className="trending-movie">
+            <Link to="/detail/64ae75ec3ee5c660c20d3a0e" className="trending-movie">
               <div className="trending-img">
                 <img
                   src="https://image.tmdb.org/t/p/w154/qW4crfED8mpNDadSmMdi7ZDzhXF.jpg"

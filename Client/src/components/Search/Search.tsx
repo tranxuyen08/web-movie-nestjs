@@ -10,7 +10,7 @@ const Search = () => {
   const [newData, setNewData] = useState<any[]>([]); // Thay any[] bằng kiểu dữ liệu phù hợp với newData
 
   const dispatch = useDispatch();
-  const imgURL = "https://mymoonlight.vercel.app/girl.png";
+  const imgURL = "https://images.pexels.com/photos/5662857/pexels-photo-5662857.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;

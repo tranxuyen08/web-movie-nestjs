@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./History.css";
 import BaseAxios from "../../api/axiosClient";
+import { BsCalendarDate, BsFillStickiesFill } from "react-icons/bs";
+import { BiMoney, BiPurchaseTagAlt } from "react-icons/bi";
 const History: React.FC = () => {
   const [data, setData] = useState<any>();
   const [countDowndateExp, setCountDowndateExp] = useState(0);
@@ -42,10 +44,10 @@ const History: React.FC = () => {
         <table>
           <thead>
             <tr>
-              <th>Subscription Plan</th>
-              <th>Price</th>
-              <th>Purchase Date</th>
-              <th>Expiration Date</th>
+              <th><BsCalendarDate/> Subscription Plan</th>
+              <th><BiMoney/> Price</th>
+              <th><BiPurchaseTagAlt/> Purchase Date</th>
+              <th><BsFillStickiesFill/> Expiration Date</th>
             </tr>
           </thead>
           <tbody>

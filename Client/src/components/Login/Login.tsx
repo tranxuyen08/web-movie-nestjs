@@ -13,10 +13,6 @@ import { login } from "../../redux/reducer/userSlice";
 import BaseAxios from "../../api/axiosClient";
 import queryString from "query-string";
 import jwtDecode from "jwt-decode";
-// import dotenv from 'dotenv';
-
-// dotenv.config()
-// const [searchParams] = useSearchParams();
 
 const deleteCookie = (name: string): void => {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;

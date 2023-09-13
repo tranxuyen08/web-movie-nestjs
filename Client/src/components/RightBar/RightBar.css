@@ -79,3 +79,10 @@
 .icon-ratting{
   color: var(--tertiary-color);
 }
+
+
+@media screen and (max-width:844px){
+  .sect-right-bar{
+    display: none;
+  }
+}

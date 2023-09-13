@@ -101,3 +101,16 @@
 .btn-delete:hover{
   background-color: #606060;
 }
+
+@media screen and (max-width:884px) {
+  .content{
+    display: block;
+  }
+  .content-left, .content-right{
+    margin-right: 0;
+    width: 100%;
+  }
+  .wrapper-content-left{
+    margin-bottom: 20px;
+  }
+}

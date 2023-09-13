@@ -23,6 +23,7 @@ import  {PayPalScriptProvider} from '@paypal/react-paypal-js'
 import CheckOut from './components/CheckOut/CheckOut'
 import { useState } from 'react'
 import ExploreLayout from './layout/Explore/ExploreLayout'
+import History from './components/History/History'
 // require("dotenv").config()
 
 const PAYPAL_CLIENT_ID = 'AaCz_FbQvmgViAE1krmn50miKVJu7TrjEqD6tv3aD8aEX6fPHrZt5T27rtF_KbdZv1H2KKgEaKqQTSQR'
@@ -50,11 +51,12 @@ function App() {
           <Route path='/bookmarked' element={<LayoutProfile><BookMarked /></LayoutProfile>} />
           <Route path='/profile' element={<LayoutProfile><Profile/></LayoutProfile>} />
           <Route path='/playing-movie/:id' element={<DefaultLayout><PlayingMovie /></DefaultLayout>} />
+          <Route path='/history' element={<DefaultLayout><History /></DefaultLayout>} />
         </Route>
         <Route path='/login' element={<LoginLayout><Login /></LoginLayout>} />
         <Route path='/register' element={<LoginLayout><Register /></LoginLayout>} />
-        <Route path='*' element={<NotFound/>}/>
         <Route path='/checkout' element={<CheckOut/>}/>
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
       </PayPalScriptProvider>
     </>

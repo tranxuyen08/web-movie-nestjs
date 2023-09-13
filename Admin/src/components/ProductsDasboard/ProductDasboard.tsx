@@ -27,7 +27,6 @@ const LineChartExample: React.FC = () => {
   useEffect(() => {
     // Khởi tạo mảng tổng doanh thu cho từng tháng với giá trị ban đầu là 0
     const initialRevenue = Array(12).fill(0);
-
     // Tính toán tổng doanh thu cho từng tháng
     data.forEach((item) => {
       if ((item as any).price && (item as any).createdAt) {
@@ -37,7 +36,6 @@ const LineChartExample: React.FC = () => {
         initialRevenue[month] += price;
       }
     });
-
     setTotalRevenue(initialRevenue);
   }, [data]);
 

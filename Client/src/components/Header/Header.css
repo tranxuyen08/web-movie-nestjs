@@ -1,43 +1,124 @@
-.header{
+.header {
   width: 100%;
   margin-bottom: 50px;
 }
-.wrapper-content-header{
+
+.wrapper-content-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
 }
-.header-left{
+
+.header-left {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
-.header-left a{
+
+.header-left a {
   font-weight: 600;
   padding-bottom: 2px;
   border-bottom: 3px solid #ddd;
   color: var(--secondary-color);
 }
-.header-right{
+
+.header-right {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
 
 }
-.avatar{
+
+.avatar {
   display: block;
   width: 45px !important;
   height: 45px;
 }
-.header-right > p{
+
+.header-right>p {
   color: var(--secondary-color);
   font-weight: 700;
 }
-.header-right > p > span{
+
+.header-right>p>span {
   color: var(--tertiary-color);
   padding-left: 10px;
+}
 
+.wrapper-header-top {
+  display: none;
+}
+.menu-left{
+  display: none;
+}
+@media screen and (max-width: 844px) {
+
+  .wrapper-header-top,
+  .header-top-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wrapper-img {
+    width: 50px;
+  }
+
+  .title-h1-mobile {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .title-h1-mobile span {
+    color: blue;
+  }
+
+  .icon-menu {
+    font-size: 25px;
+    color: #fff;
+  }
+
+  /* menu */
+  .menu-left {
+    position: fixed;
+    height: 100vh;
+    z-index: 2;
+    background-color: #252A2F;
+    width: 0;
+    /* Không có chiều rộng */
+    top: 0;
+    left: -100%;
+    /* Đẩy menu ra ngoài màn hình bên trái */
+    transition: width 0.3s ease;
+  }
+
+  .title-menu {
+    display: block !important;
+  }
+
+  .list-nav {
+    justify-content: flex-start;
+  }
+
+  .menu-left.open {
+    width: 50%;
+    /* Chiều rộng menu khi mở */
+    left: 0;
+    /* Đặt menu về vị trí gốc */
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: var(--swiper-navigation-top-offset, 26%) !important;
+  }
+  .swiper-slide a {
+    display: flex;
+    height: 270px !important;
+
+  }
 }

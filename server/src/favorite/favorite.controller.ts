@@ -25,7 +25,6 @@ export class FavoriteController {
   @Delete(":id")
   async deleteLikeMovie(@Param('id') param,@Req() req){
     const idMovie = param;
-    console.log("idMovie",idMovie)
     return await this.favoriteService.handleDelete(idMovie)
   }
 }

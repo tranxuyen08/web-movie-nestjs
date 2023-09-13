@@ -111,7 +111,6 @@ console.log(111111,formData);
         progress: undefined,
         theme: "light",
       });
-      console.log("New movie created:", newMovie);
     } catch (error) {
       console.error("Error creating movie:", error);
     }

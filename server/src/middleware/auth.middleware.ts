@@ -9,7 +9,6 @@ export class CheckAuth implements NestMiddleware{
 
   use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.header("Authorization");
-    console.log("auth", authHeader)
     if (!authHeader) {
       return res.sendStatus(401); // Unauthorized
     }

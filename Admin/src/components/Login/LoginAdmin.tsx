@@ -21,7 +21,6 @@ const LoginAdmin: React.FC = () => {
     try {
       const loginValue: any = inputValue;
       const dataLogin = await dispatch(loginAdmin(loginValue) as any).unwrap()
-      console.log("dataLogin", dataLogin)
       if (dataLogin && dataLogin.role_admin === 2) {
         navigate("/");
       } else {

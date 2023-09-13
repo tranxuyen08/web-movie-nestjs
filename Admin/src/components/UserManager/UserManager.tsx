@@ -34,7 +34,6 @@ const Users = () => {
     try {
       const response = await BaseAxios.get(`/api/v1/users/${id}`);
       const updatedUser = response.data;
-      console.log("updatedUser",response);
       if (!updatedUser) {
         console.error("User not found");
         return;

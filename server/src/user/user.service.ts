@@ -128,7 +128,6 @@ export class UsersService {
           runValidators: true,
         });
         const user = await this.userModel.findById(_id)
-        console.log("user",user)
         const userPaymented = new this.historyModel ({
           idUser : user._id,
           price : data.price,

@@ -23,7 +23,9 @@ const FindFilm: React.FC = () => {
   const dispatch = useDispatch();
   const pagination = useSelector((state: RootState) => state.movies.pagination); // Thay any bằng kiểu dữ liệu phù hợp
   const sortValue = useSelector((state: RootState) => state.sortData);
-  const genresValue = useSelector((state: RootState) => state.filterGenresMovie)
+  const genresValue = useSelector(
+    (state: RootState) => state.filterGenresMovie
+  );
   const [dataMovie, setDataMovie] = useState<Array<any>>([]); // Thay any[] bằng kiểu dữ liệu phù hợp
   const [isLoad, setIsLoad] = useState<boolean>(true);
   const [isSort, setIsSort] = useState<boolean>(false);
@@ -51,13 +53,19 @@ const FindFilm: React.FC = () => {
     }));
   };
   const handleFilter = async () => {
-    setIsLoad(true)
+    setIsLoad(true);
     try {
       const queryString = querystring.stringify(filter);
       // const response = await BaseAxios.get(
       //   `/api/v1/movie?${queryString}&_sort=${sortValue}&_process=${valueProgress}&_genres=${[]}`
       // );
-      const response = await MovieAPI.getAllMovie(pagination._page,queryString,sortValue,Number(valueProgress),genresValue)
+      const response = await MovieAPI.getAllMovie(
+        pagination._page,
+        queryString,
+        sortValue,
+        Number(valueProgress),
+        genresValue
+      );
       setDataMovie(response.data.data);
       setIsLoad(false);
     } catch (error) {
@@ -68,7 +76,7 @@ const FindFilm: React.FC = () => {
   };
   useEffect(() => {
     handleFilter();
-  }, [filter, sortValue,valueProgress,genresValue]);
+  }, [filter, sortValue, valueProgress, genresValue]);
 
   useEffect(() => {
     handleGetAPI(1);
@@ -80,7 +88,7 @@ const FindFilm: React.FC = () => {
       <div className="wrapper-find-film">
         <h2 className="title-h2">FIND FILMS THAT BEST FIT YOU</h2>
         <ul className="list-card">
-          {dataMovie &&
+          {dataMovie.length > 0 &&
             dataMovie?.map((item) => {
               // const imgURL =
               //   "https://image.tmdb.org/t/p/" + "original" + item?.poster;
@@ -109,7 +117,12 @@ const FindFilm: React.FC = () => {
               );
             })}
         </ul>
-        {pagination?._page && (
+        {dataMovie.length == 0 && (
+          <div className="not-found-img">
+            <img src="/image/istockphoto-1265221960-170667a.jpg" alt="" />
+          </div>
+        )}
+        {dataMovie.length > 0 && pagination?._page && (
           <Pagination
             pagination={pagination}
             onPageChange={handleOnPageChange}

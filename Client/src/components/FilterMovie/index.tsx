@@ -27,9 +27,9 @@ const FilterMovie: React.FC = () => {
     // runtimeMovie
     setTimeout(() => {
       dispatch(processMovie(valueProgress));
-      if (dataFilter.length > 0) {
+      // if (dataFilter) {
         dispatch(genresMovie(dataFilter));
-      }
+      // }
     }, 1000);
   }, [valueProgress,dataFilter]);
   return (

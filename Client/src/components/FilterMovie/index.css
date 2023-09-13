@@ -46,3 +46,12 @@
   justify-content: space-between;
   font-weight: 600;
 }
+
+@media screen and (max-width: 844px) {
+  .wrapper-filter, .wrapper-sort{
+    display: none;
+  }
+  .list-card{
+    grid-template-columns: auto auto;
+  }
+}

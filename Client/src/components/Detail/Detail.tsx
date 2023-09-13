@@ -7,7 +7,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { Rating } from "react-simple-star-rating";
 
 import BaseAxios from "../../api/axiosClient";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { IComment, IMovie } from "../../types/types";
 import FadingBox from "../Model/Model";
 
@@ -22,7 +22,7 @@ const Detail: React.FC = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [comments, setComments] = useState<IComment[]>([]);
   const [value, setValue] = useState<number>(0);
-
+  const navigate = useNavigate()
   const handleWatchingClick = () => {
     if (movie?.role_movie === 1) {
       setLinkWatching(`/playing-movie/${movie?._id}`);
@@ -32,7 +32,8 @@ const Detail: React.FC = () => {
         JSON.parse(localStorage.getItem("userLogin") as string) || null;
 
       if (accessTokenUser && userLogin.role_subscription === 1) {
-        setIsModelOpen(true);
+        location.href = "http://localhost:3000/checkout"
+        // setIsModelOpen(true);
       } else {
         setLinkWatching(`/playing-movie/${movie?._id}`);
       }

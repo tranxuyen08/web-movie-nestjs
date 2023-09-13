@@ -106,7 +106,6 @@ const Modal: React.FC<ModalProps> = ({
       );
 
       const newMovie = response.data;
-      console.log("New movie created:", newMovie);
 
       // Reset form values
       setTitle("");

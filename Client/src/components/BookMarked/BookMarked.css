@@ -27,3 +27,17 @@
   background-position: center;
   background-size: 550px;
 }
+/* .img-notfound > img{
+  mix-blend-mode: multiply;
+} */
+@media screen and (max-width: 884px) {
+  .bookmarked{
+    width: 100vw !important;
+  }
+  .profile{
+    padding: 0 !important;
+  }
+  .img-notfound{
+    width: 370px;
+  }
+}

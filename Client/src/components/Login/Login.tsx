@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,7 +42,7 @@ const getOauthGoogleUrl = () => {
 };
 
 const Login: React.FC = () => {
-  const param = useParams()
+  const param = useParams();
   const [searchParams] = useSearchParams();
 
   const [errors, setErrors] = useState({
@@ -52,7 +57,7 @@ const Login: React.FC = () => {
     localStorage.removeItem("userLogin");
     // window.location.reload();
   };
-  logout()
+  logout();
   // khi người dùng đăng nhập mà /login thì tự động xoá
   useEffect(() => {
     if (token) {
@@ -70,7 +75,6 @@ const Login: React.FC = () => {
         });
     }
   }, []);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState({
@@ -146,34 +150,37 @@ const Login: React.FC = () => {
   };
 
   // Util để lấy refreshToken từ cookie và cập nhật vào localStorage
-const getRefreshTokenFromCookie = () => {
-  const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split('=');
-    if (name === 'refreshToken') {
-      localStorage.setItem('refreshToken', value);
-      return value;
+  const getRefreshTokenFromCookie = () => {
+    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === "refreshToken") {
+        localStorage.setItem("refreshToken", value);
+        return value;
+      }
     }
-  }
-  return null;
-};
+    return null;
+  };
 
   useEffect(() => {
     const searchParams = queryString.parse(window.location.search);
-    if (searchParams.access_token !== undefined && searchParams.refresh_token !== undefined) {
+    if (
+      searchParams.access_token !== undefined &&
+      searchParams.refresh_token !== undefined
+    ) {
       const accessToken = searchParams.access_token as string;
       const refreshToken = searchParams.refresh_token as string;
 
       // Giải mã accessToken (nếu cần)
       const userLogin: any = jwtDecode(accessToken);
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('userLogin', JSON.stringify(userLogin));
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userLogin", JSON.stringify(userLogin));
 
       // Lưu refreshToken vào cookie
       document.cookie = `refreshToken=${refreshToken}; expires=Thu, 01 Jan 2030 00:00:00 UTC; path=/;`;
 
       // Điều hướng sau khi lưu thành công
-      navigate('/');
+      navigate("/");
     }
   }, [navigate]);
   return (
@@ -259,28 +266,32 @@ const getRefreshTokenFromCookie = () => {
             method="POST"
             onSubmit={handleSignIn}
           >
-            <input
-              onChange={handleChangeInput}
-              className="email"
-              name="email"
-              type="email"
-              placeholder="Email.."
-              value={inputValue.email}
-            />
-            {errors.email && <p className="error">{errors.email}</p>}
-            <input
-              onChange={handleChangeInput}
-              className="password"
-              name="password"
-              type="password"
-              placeholder="Password.."
-              value={inputValue.password}
-            />
-            {errors.password && <p className="error">{errors.password}</p>}
+            <div className="wrapper-form">
+              <input
+                onChange={handleChangeInput}
+                className="email"
+                name="email"
+                type="email"
+                placeholder="Email.."
+                value={inputValue.email}
+              />
+              {errors.email && <p className="error">{errors.email}</p>}
+            </div>
+            <div className="wrapper-form">
+              <input
+                onChange={handleChangeInput}
+                className="password"
+                name="password"
+                type="password"
+                placeholder="Password.."
+                value={inputValue.password}
+              />
+              {errors.password && <p className="error">{errors.password}</p>}
+            </div>
             <input className="btn btn-signin" type="submit" value="Sign In" />
           </form>
           <p className="text-sign-up">
-            Not a member? <span style={{ marginRight: "10px" }}></span>
+            Not a member?
             <Link to="/register">Sign Up</Link>
           </p>
         </div>

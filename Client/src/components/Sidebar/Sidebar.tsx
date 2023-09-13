@@ -27,9 +27,9 @@ const Sidebar: React.FC = () => {
         <div>
           <div className="wrapper-header">
             <Link to="/" className="wrapper-img">
-              <img src="/image/zyro-image (1).png" alt="logo" />
+              <img src="/image/logo.png" alt="logo" />
             </Link>
-            <h1>FixCode&Chill</h1>
+            <h1>MoonLight<span>&Chill</span></h1>
           </div>
           <div className="list-nav">
             <div className="item-nav">
